@@ -1,0 +1,21 @@
+name: Extraire le ZIP
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extraire
+        run: |
+          unzip -o BUSINESS-BOT-MAX-v0.1.zip -d projet
+          find projet -maxdepth 2 | head -50
+      - name: Enregistrer
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add projet
+          git commit -m "Extraire le ZIP" || echo "rien a enregistrer"
+          git push
